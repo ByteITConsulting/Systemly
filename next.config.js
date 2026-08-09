@@ -7,7 +7,11 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'export',
   basePath: '/Systemly',
-  assetPrefix: '/Systemly',
+  assetPrefix: '/Systemly/',
+  images: {
+    unoptimized: true,
+  },
+  trailingSlash: true,
   turbopack: {
     root: '.',
   },

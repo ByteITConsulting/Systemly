@@ -1,6 +1,6 @@
-import { StepType } from 'react-joyride';
+import { Step } from 'react-joyride';
 
-export interface TutorialStep extends StepType {
+export interface TutorialStep extends Step {
   // i18n keys for dynamic translations
   titleKey?: string;
   contentKey?: string;

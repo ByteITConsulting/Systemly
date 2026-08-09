@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "echo \"Test suite configured but not implemented yet\" && exit 0"
   },
   "dependencies": {
     "html-to-image": "^1.11.11",

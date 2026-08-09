@@ -1,9 +1,16 @@
 import { MetadataRoute } from 'next';
+import { locales } from '@/i18n.config';
 
 interface ManifestProps {
   params: {
     locale: string;
   };
+}
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({
+    locale,
+  }));
 }
 
 export default function manifest({ params: { locale } }: ManifestProps): MetadataRoute.Manifest {

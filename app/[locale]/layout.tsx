@@ -5,15 +5,13 @@ import { locales, type Locale } from "@/i18n.config";
 import {
   getCanonicalUrl,
   getAlternateLanguages,
-  getMetadataForLocale,
   getOGImageUrl,
+  getMetadataForLocale,
   toOGLocale,
 } from "@/lib/seo";
 import { generateSchemaGraph } from "@/lib/schema";
 import { StructuredData } from "@/components/StructuredData";
 import "@/app/globals.scss";
-
-export const dynamic = 'auto';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -88,7 +86,6 @@ export async function generateMetadata({
       canonical: currentUrl,
       languages: alternateLanguages,
     },
-    themeColor: '#000000',
     other: {
       'application-ld+json': JSON.stringify(schemaGraph),
     },
@@ -139,3 +136,5 @@ export default async function RootLayout({
     </html>
   );
 }
+
+export const dynamic = 'auto';

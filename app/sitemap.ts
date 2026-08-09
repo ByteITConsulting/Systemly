@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { locales } from '@/i18n.config';
 import { getCanonicalUrl, type Locale } from '@/lib/seo';
 
+export const dynamic = 'force-static';
+
 /**
  * Root sitemap.ts - generates sitemap for all locales
  * Serves at http://domain.com/sitemap.xml

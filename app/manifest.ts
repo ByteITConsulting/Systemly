@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getBaseUrl } from '@/lib/seo';
 
+export const dynamic = 'force-static';
+
 /**
  * PWA Web Manifest
  * Defines app metadata for web app installation

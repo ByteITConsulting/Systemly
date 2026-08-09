@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getBaseUrl } from '@/lib/seo';
 
+export const dynamic = 'force-static';
+
 /**
  * Root robots.txt generator
  * Serves at http://domain.com/robots.txt

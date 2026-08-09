@@ -1,0 +1,118 @@
+{
+  "common": {
+    "language": "Idioma",
+    "english": "English",
+    "portuguese": "Português"
+  },
+  "toolbar": {
+    "tagline": "treino de system design",
+    "components": "componentes",
+    "connections": "conexões",
+    "hint": "passe o mouse num componente e arraste a bolinha até outro para conectar",
+    "clear": "Limpar",
+    "clearTitle": "Limpar o canvas",
+    "export": "Exportar PNG",
+    "exporting": "Exportando…",
+    "exportTitle": "Exportar diagrama como PNG"
+  },
+  "sidebar": {
+    "pieces": "Peças",
+    "components": "Componentes",
+    "helper": "Arraste para o canvas",
+    "categories": {
+      "client": "Cliente",
+      "network": "Rede & Borda",
+      "compute": "Computação",
+      "data": "Dados"
+    },
+    "componentTypes": {
+      "client": "Cliente",
+      "clientHint": "Navegador, app mobile ou usuário final",
+      "cdn": "CDN",
+      "cdnHint": "Distribui conteúdo estático perto do usuário",
+      "loadBalancer": "Load Balancer",
+      "loadBalancerHint": "Distribui tráfego entre instâncias",
+      "apiGateway": "API Gateway",
+      "apiGatewayHint": "Roteamento, rate limit, autenticação",
+      "auth": "Auth Service",
+      "authHint": "Autenticação e autorização",
+      "webServer": "Web Server",
+      "webServerHint": "Serve páginas e assets",
+      "appServer": "App Server",
+      "appServerHint": "Lógica de negócio / backend",
+      "microservice": "Microsserviço",
+      "microserviceHint": "Serviço independente e desacoplado",
+      "queue": "Message Queue",
+      "queueHint": "Processamento assíncrono (Kafka, SQS)",
+      "cache": "Cache",
+      "cacheHint": "Redis / Memcached — leitura rápida",
+      "sqlDb": "SQL Database",
+      "sqlDbHint": "Banco relacional — consistência forte",
+      "nosqlDb": "NoSQL Database",
+      "nosqlDbHint": "Banco não-relacional — escala horizontal",
+      "storage": "Object Storage",
+      "storageHint": "Arquivos, imagens, blobs"
+    }
+  },
+  "challenges": {
+    "mode": "Modo Treino",
+    "scenario": "Cenário",
+    "constraints": "Restrições",
+    "requirements": "Requisitos",
+    "urlShortener": {
+      "title": "Encurtador de URL",
+      "brief": "Projete um sistema que recebe uma URL longa e devolve uma URL curta, redirecionando milhões de acessos por dia.",
+      "constraint1": "100M de novas URLs por mês",
+      "constraint2": "Leitura >> escrita (redirecionamentos são muito mais frequentes)",
+      "constraint3": "Latência de redirecionamento baixa",
+      "check1": "Camada de borda para distribuir carga",
+      "check2": "Serviço de aplicação para gerar/resolver códigos",
+      "check3": "Cache para redirecionamentos populares",
+      "check4": "Banco de dados para persistir o mapeamento"
+    },
+    "socialFeed": {
+      "title": "Feed de Rede Social",
+      "brief": "Projete o backend de um feed estilo Twitter/Instagram: usuários postam, seguem outros e veem um feed cronológico ou ranqueado.",
+      "constraint1": "Fan-out de posts para milhões de seguidores",
+      "constraint2": "Feed deve carregar rápido (< 200ms)",
+      "constraint3": "Mídia (fotos/vídeos) é pesada",
+      "check1": "API Gateway na entrada das requisições",
+      "check2": "Serviço de autenticação separado",
+      "check3": "Fila para processar fan-out de forma assíncrona",
+      "check4": "Cache do feed pré-computado",
+      "check5": "Storage de objetos para mídia",
+      "check6": "CDN para servir mídia perto do usuário",
+      "check7": "Banco de dados para posts/relacionamentos"
+    },
+    "chatApp": {
+      "title": "Chat em Tempo Real",
+      "brief": "Projete um sistema de mensagens instantâneas 1:1 e em grupo, com entrega confiável e status online/offline.",
+      "constraint1": "Baixa latência de entrega",
+      "constraint2": "Mensagens não podem se perder",
+      "constraint3": "Milhões de conexões simultâneas",
+      "check1": "Load balancer para distribuir conexões",
+      "check2": "Serviço de mensageria dedicado",
+      "check3": "Fila para garantir entrega e ordenação",
+      "check4": "Cache para presença/status online",
+      "check5": "Banco de dados para histórico de mensagens"
+    },
+    "ecommerce": {
+      "title": "E-commerce: Carrinho e Checkout",
+      "brief": "Projete o fluxo de carrinho de compras e checkout de um e-commerce de grande escala, incluindo pagamento e estoque.",
+      "constraint1": "Consistência forte no pagamento e estoque",
+      "constraint2": "Picos de tráfego em promoções (Black Friday)",
+      "constraint3": "Catálogo de produtos com alto volume de leitura",
+      "check1": "CDN para catálogo/imagens de produtos",
+      "check2": "API Gateway centralizando as rotas",
+      "check3": "Cache para catálogo de produtos",
+      "check4": "Fila para processar pedidos de forma assíncrona",
+      "check5": "Microsserviço dedicado a pagamento",
+      "check6": "Banco relacional para pedidos/estoque (consistência)"
+    },
+    "freeForm": {
+      "title": "Modo Livre",
+      "brief": "Sem restrições — use o canvas para explorar qualquer arquitetura que você quiser desenhar."
+    },
+    "footNote": "O checklist é um guia de autoavaliação — verifique se cada peça faz sentido para o cenário, não apenas se ela está presente."
+  }
+}

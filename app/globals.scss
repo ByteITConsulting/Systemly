@@ -1,0 +1,84 @@
+:root {
+  --bp-navy-deep: #000000;
+  --bp-navy: #050505;
+  --bp-navy-panel: #0a0a0a;
+  --bp-navy-panel-2: #161616;
+  --bp-grid-line: rgba(255, 255, 255, 0.07);
+  --bp-grid-line-strong: rgba(255, 255, 255, 0.16);
+  --bp-cyan: #f5f5f5;
+  --bp-cyan-soft: #d4d4d4;
+  --bp-amber: #ffffff;
+  --bp-paper: #f5f5f5;
+  --bp-paper-dim: #7a7a7a;
+  --bp-danger: #f5f5f5;
+
+  --cat-client: #fbbf24;
+  --cat-network: #22d3ee;
+  --cat-compute: #a78bfa;
+  --cat-data: #34d399;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--bp-navy);
+  color: var(--bp-paper);
+  font-family: var(--font-body);
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+#__next,
+main {
+  height: 100%;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--bp-cyan);
+  color: var(--bp-navy-deep);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bp-navy-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bp-navy-panel-2);
+  border-radius: 5px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--bp-cyan);
+  outline-offset: 2px;
+}

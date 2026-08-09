@@ -1,0 +1,118 @@
+{
+  "common": {
+    "language": "Language",
+    "english": "English",
+    "portuguese": "Português"
+  },
+  "toolbar": {
+    "tagline": "system design training",
+    "components": "components",
+    "connections": "connections",
+    "hint": "hover over a component and drag the circle to another to connect",
+    "clear": "Clear",
+    "clearTitle": "Clear the canvas",
+    "export": "Export PNG",
+    "exporting": "Exporting…",
+    "exportTitle": "Export diagram as PNG"
+  },
+  "sidebar": {
+    "pieces": "Pieces",
+    "components": "Components",
+    "helper": "Drag to canvas",
+    "categories": {
+      "client": "Client",
+      "network": "Network & Edge",
+      "compute": "Compute",
+      "data": "Data"
+    },
+    "componentTypes": {
+      "client": "Client",
+      "clientHint": "Browser, mobile app or end user",
+      "cdn": "CDN",
+      "cdnHint": "Distributes static content near the user",
+      "loadBalancer": "Load Balancer",
+      "loadBalancerHint": "Distributes traffic between instances",
+      "apiGateway": "API Gateway",
+      "apiGatewayHint": "Routing, rate limiting, authentication",
+      "auth": "Auth Service",
+      "authHint": "Authentication and authorization",
+      "webServer": "Web Server",
+      "webServerHint": "Serves pages and assets",
+      "appServer": "App Server",
+      "appServerHint": "Business logic / backend",
+      "microservice": "Microservice",
+      "microserviceHint": "Independent and decoupled service",
+      "queue": "Message Queue",
+      "queueHint": "Asynchronous processing (Kafka, SQS)",
+      "cache": "Cache",
+      "cacheHint": "Redis / Memcached — fast reads",
+      "sqlDb": "SQL Database",
+      "sqlDbHint": "Relational database — strong consistency",
+      "nosqlDb": "NoSQL Database",
+      "nosqlDbHint": "Non-relational database — horizontal scale",
+      "storage": "Object Storage",
+      "storageHint": "Files, images, blobs"
+    }
+  },
+  "challenges": {
+    "mode": "Training Mode",
+    "scenario": "Scenario",
+    "constraints": "Constraints",
+    "requirements": "Requirements",
+    "urlShortener": {
+      "title": "URL Shortener",
+      "brief": "Design a system that takes a long URL and returns a short URL, redirecting millions of accesses per day.",
+      "constraint1": "100M new URLs per month",
+      "constraint2": "Reads >> writes (redirects are much more frequent)",
+      "constraint3": "Low redirection latency",
+      "check1": "Edge layer to distribute load",
+      "check2": "Application service to generate/resolve codes",
+      "check3": "Cache for popular redirects",
+      "check4": "Database to persist the mapping"
+    },
+    "socialFeed": {
+      "title": "Social Media Feed",
+      "brief": "Design the backend of a Twitter/Instagram-style feed: users post, follow others, and see a chronological or ranked feed.",
+      "constraint1": "Fan-out of posts to millions of followers",
+      "constraint2": "Feed must load quickly (< 200ms)",
+      "constraint3": "Media (photos/videos) is heavy",
+      "check1": "API Gateway at the entry of requests",
+      "check2": "Separate authentication service",
+      "check3": "Queue to process fan-out asynchronously",
+      "check4": "Pre-computed feed cache",
+      "check5": "Object storage for media",
+      "check6": "CDN to serve media near the user",
+      "check7": "Database for posts/relationships"
+    },
+    "chatApp": {
+      "title": "Real-Time Chat",
+      "brief": "Design an instant messaging system for 1:1 and group messages, with reliable delivery and online/offline status.",
+      "constraint1": "Low delivery latency",
+      "constraint2": "Messages cannot be lost",
+      "constraint3": "Millions of simultaneous connections",
+      "check1": "Load balancer to distribute connections",
+      "check2": "Dedicated messaging service",
+      "check3": "Queue to guarantee delivery and ordering",
+      "check4": "Cache for presence/online status",
+      "check5": "Database for message history"
+    },
+    "ecommerce": {
+      "title": "E-commerce: Cart & Checkout",
+      "brief": "Design the cart flow and checkout of a large-scale e-commerce platform, including payment and inventory.",
+      "constraint1": "Strong consistency in payment and inventory",
+      "constraint2": "Traffic spikes during promotions (Black Friday)",
+      "constraint3": "High-volume product catalog reads",
+      "check1": "CDN for product catalog/images",
+      "check2": "API Gateway centralizing routes",
+      "check3": "Cache for product catalog",
+      "check4": "Queue to process orders asynchronously",
+      "check5": "Dedicated payment microservice",
+      "check6": "Relational database for orders/inventory (consistency)"
+    },
+    "freeForm": {
+      "title": "Free Mode",
+      "brief": "No constraints — use the canvas to explore any architecture you want to draw."
+    },
+    "footNote": "The checklist is a self-assessment guide — check whether each piece makes sense for the scenario, not just whether it is present."
+  }
+}

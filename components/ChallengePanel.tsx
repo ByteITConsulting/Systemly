@@ -29,7 +29,6 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
   const total = challenge.checklist.length;
 
   const translationKeys = CHALLENGE_TRANSLATION_MAP[challenge.id];
-  const challengeTitle = translationKeys ? t(translationKeys.titleKey) : challenge.title;
   const challengeBrief = translationKeys ? t(translationKeys.briefKey) : challenge.brief;
 
   return (
@@ -64,7 +63,7 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
           <ul className={styles.constraints}>
             {challenge.constraints.map((c, i) => {
               const constraintKey = translationKeys ? `${translationKeys.prefix}.constraint${i + 1}` : null;
-              const text = constraintKey ? t(constraintKey as any) : c;
+              const text = constraintKey ? t(constraintKey) : c;
               return <li key={i}>{text}</li>;
             })}
           </ul>
@@ -89,7 +88,7 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
             {challenge.checklist.map((item, idx) => {
               const done = item.match.some((t) => presentTypes.has(t));
               const checkKey = translationKeys ? `${translationKeys.prefix}.check${idx + 1}` : null;
-              const label = checkKey ? t(checkKey as any) : item.label;
+              const label = checkKey ? t(checkKey) : item.label;
               return (
                 <li key={item.id} className={done ? styles.checked : ""}>
                   <span className={styles.checkbox}>{done ? "✓" : ""}</span>

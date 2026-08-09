@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { locales } from '@/i18n.config';
-import { getBaseUrl, getCanonicalUrl, type Locale } from '@/lib/seo';
+import { getCanonicalUrl, type Locale } from '@/lib/seo';
 
 /**
  * Root sitemap.ts - generates sitemap for all locales

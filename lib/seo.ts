@@ -75,10 +75,10 @@ export function getMetadataForLocale(locale: Locale) {
 
 /**
  * OpenGraph image path builder
- * @param locale - The locale
+ * @param _locale - The locale
  * @returns OG image URL
  */
-export function getOGImageUrl(locale: Locale): string {
+export function getOGImageUrl(_locale: Locale): string {
   const baseUrl = getBaseUrl();
   return `${baseUrl}/og-image.png`;
 }

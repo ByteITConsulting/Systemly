@@ -5,7 +5,7 @@
  */
 
 interface StructuredDataProps {
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
   id?: string;
 }
 

@@ -8,7 +8,6 @@ import {
   getMetadataForLocale,
   getOGImageUrl,
   toOGLocale,
-  getBaseUrl,
 } from "@/lib/seo";
 import { generateSchemaGraph } from "@/lib/schema";
 import { StructuredData } from "@/components/StructuredData";
@@ -30,12 +29,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params: { locale },
 }: LayoutProps): Promise<Metadata> {
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 
   // Get SEO content for current locale
-  const baseUrl = getBaseUrl();
   const { title, description, keywords } = getMetadataForLocale(locale as Locale);
   const currentUrl = getCanonicalUrl(locale as Locale);
   const alternateLanguages = getAlternateLanguages(locale as Locale);
@@ -109,7 +107,7 @@ export default async function RootLayout({
   children,
   params: { locale },
 }: LayoutProps) {
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 

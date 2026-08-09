@@ -17,9 +17,9 @@ export const dynamic = 'auto';
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -27,8 +27,9 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: LayoutProps): Promise<Metadata> {
+  const { locale } = await params;
   if (!locales.includes(locale as Locale)) {
     notFound();
   }
@@ -105,8 +106,9 @@ export function generateViewport(): Viewport {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: LayoutProps) {
+  const { locale } = await params;
   if (!locales.includes(locale as Locale)) {
     notFound();
   }

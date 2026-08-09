@@ -33,7 +33,7 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
   const challengeBrief = translationKeys ? t(translationKeys.briefKey) : challenge.brief;
 
   return (
-    <aside className={styles.panel}>
+    <aside className={styles.panel} data-tour="challenge-panel">
       <div className={styles.header}>
         <span className={styles.eyebrow}>{t("challenges.mode")}</span>
         <h2>{t("challenges.scenario")}</h2>
@@ -43,6 +43,7 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
         className={styles.select}
         value={challengeId}
         onChange={(e) => onSelectChallenge(e.target.value)}
+        data-tour="challenge-scenarios"
       >
         {CHALLENGES.map((c) => {
           const keys = CHALLENGE_TRANSLATION_MAP[c.id];
@@ -71,7 +72,7 @@ export default function ChallengePanel({ challengeId, onSelectChallenge, nodes }
       )}
 
       {challenge.checklist.length > 0 && (
-        <div className={styles.block}>
+        <div className={styles.block} data-tour="challenge-checklist">
           <div className={styles.checklistHeader}>
             <span className={styles.blockLabel}>Checklist</span>
             <span className={styles.progress}>

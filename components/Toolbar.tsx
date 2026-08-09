@@ -3,6 +3,7 @@
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useTutorial } from "./TutorialProvider";
 import styles from "./Toolbar.module.scss";
 
 interface ToolbarProps {
@@ -23,6 +24,7 @@ export default function Toolbar({
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
+  const { isActive, startTutorial } = useTutorial();
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = e.target.value;
@@ -30,7 +32,7 @@ export default function Toolbar({
   };
 
   return (
-    <header className={styles.toolbar}>
+    <header className={styles.toolbar} data-tour="toolbar">
       <div className={styles.brand}>
         <span className={styles.mark}>⌗</span>
         <div className={styles.brandText}>
@@ -58,11 +60,22 @@ export default function Toolbar({
           <span className={styles.btnIcon}>⟲</span>
           {t("toolbar.clear")}
         </button>
+        {!isActive && (
+          <button
+            className={styles.btn}
+            onClick={startTutorial}
+            title={t("toolbar.tutorialTitle") || "Start tutorial"}
+          >
+            <span className={styles.btnIcon}>?</span>
+            {t("toolbar.tutorial") || "Tutorial"}
+          </button>
+        )}
         <button
           className={`${styles.btn} ${styles.btnPrimary}`}
           onClick={onExport}
           disabled={exporting}
           title={t("toolbar.exportTitle")}
+          data-tour="toolbar-export"
         >
           <span className={styles.btnIcon}>⬇</span>
           {exporting ? t("toolbar.exporting") : t("toolbar.export")}

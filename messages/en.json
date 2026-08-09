@@ -11,6 +11,8 @@
     "hint": "hover over a component and drag the circle to another to connect",
     "clear": "Clear",
     "clearTitle": "Clear the canvas",
+    "tutorial": "Tutorial",
+    "tutorialTitle": "Start guided tutorial",
     "export": "Export PNG",
     "exporting": "Exporting…",
     "exportTitle": "Export diagram as PNG"
@@ -114,5 +116,50 @@
       "brief": "No constraints — use the canvas to explore any architecture you want to draw."
     },
     "footNote": "The checklist is a self-assessment guide — check whether each piece makes sense for the scenario, not just whether it is present."
+  },
+  "tutorial": {
+    "welcome": "Welcome to Systemly!",
+    "skipConfirmTitle": "Skip tutorial?",
+    "skipConfirmMsg": "You can restart this tutorial anytime by clicking the button in the top right.",
+    "step1": {
+      "title": "Component Library",
+      "content": "On the left, you'll find all the components you can use to design your system architecture. They're organized by category."
+    },
+    "step2": {
+      "title": "Categories",
+      "content": "Browse components by category: Client (frontends), Network & Edge (CDNs, load balancers), Compute (servers), and Data (databases, caches)."
+    },
+    "step3": {
+      "title": "Drag & Drop",
+      "content": "Click and drag any component from the sidebar onto the canvas to start building your system design."
+    },
+    "step4": {
+      "title": "Canvas Editor",
+      "content": "This is your diagram workspace. You can drag components, edit their labels, and organize them as you see fit."
+    },
+    "step5": {
+      "title": "Connect Components",
+      "content": "Hover over a component to reveal a connection circle. Drag it to another component to create a connection and show data flow."
+    },
+    "step6": {
+      "title": "Toolbar",
+      "content": "The toolbar at the top shows your component count, connection count, and provides export and language options."
+    },
+    "step7": {
+      "title": "Export Your Design",
+      "content": "Click 'Export PNG' to download your system architecture diagram as an image."
+    },
+    "step8": {
+      "title": "Training Mode",
+      "content": "On the right, you can select one of 5 training scenarios, each with specific constraints to solve."
+    },
+    "step9": {
+      "title": "Pick a Challenge",
+      "content": "Each scenario (URL Shortener, Social Feed, Chat, E-commerce, etc.) teaches a different architecture pattern."
+    },
+    "step10": {
+      "title": "Complete the Checklist",
+      "content": "The checklist helps guide you toward a complete system design. Check items off as you add the necessary components to solve the challenge."
+    }
   }
 }

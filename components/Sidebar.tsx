@@ -27,20 +27,20 @@ export default function Sidebar() {
   const t = useTranslations();
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={styles.sidebar} data-tour="sidebar">
       <div className={styles.header}>
         <span className={styles.eyebrow}>{t("sidebar.pieces")}</span>
         <h2>{t("sidebar.components")}</h2>
         <p className={styles.helper}>{t("sidebar.helper")}</p>
       </div>
 
-      <div className={styles.list}>
+      <div className={styles.list} data-tour="sidebar-categories">
         {CATEGORY_ORDER.map((cat) => (
           <div key={cat} className={styles.group}>
             <div className={styles.groupLabel} data-cat={cat}>
               {t(`sidebar.categories.${cat}`)}
             </div>
-            <div className={styles.items}>
+            <div className={styles.items} data-tour={cat === "client" ? "sidebar-drag-hint" : undefined}>
               {COMPONENT_TYPES.filter((c) => c.category === cat).map((c) => {
                 const translationKeys = COMPONENT_TRANSLATION_MAP[c.id];
                 const label = translationKeys ? t(translationKeys.labelKey) : c.label;

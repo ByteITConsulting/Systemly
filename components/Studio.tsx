@@ -6,6 +6,7 @@ import Toolbar from "./Toolbar";
 import Sidebar from "./Sidebar";
 import Canvas from "./Canvas";
 import ChallengePanel from "./ChallengePanel";
+import { Tutorial } from "./Tutorial";
 import { NodeData, EdgeData } from "@/lib/types";
 import { COMPONENT_TYPES } from "@/lib/componentTypes";
 import styles from "./Studio.module.scss";
@@ -94,6 +95,7 @@ export default function Studio() {
 
   return (
     <div className={styles.studio}>
+      <Tutorial />
       <Toolbar
         onExport={handleExport}
         onClear={handleClear}

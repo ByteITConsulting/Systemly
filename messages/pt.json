@@ -11,6 +11,8 @@
     "hint": "passe o mouse num componente e arraste a bolinha até outro para conectar",
     "clear": "Limpar",
     "clearTitle": "Limpar o canvas",
+    "tutorial": "Tutorial",
+    "tutorialTitle": "Iniciar tutorial guiado",
     "export": "Exportar PNG",
     "exporting": "Exportando…",
     "exportTitle": "Exportar diagrama como PNG"
@@ -114,5 +116,50 @@
       "brief": "Sem restrições — use o canvas para explorar qualquer arquitetura que você quiser desenhar."
     },
     "footNote": "O checklist é um guia de autoavaliação — verifique se cada peça faz sentido para o cenário, não apenas se ela está presente."
+  },
+  "tutorial": {
+    "welcome": "Bem-vindo ao Systemly!",
+    "skipConfirmTitle": "Pular tutorial?",
+    "skipConfirmMsg": "Você pode reiniciar este tutorial a qualquer momento clicando no botão no canto superior direito.",
+    "step1": {
+      "title": "Biblioteca de Componentes",
+      "content": "À esquerda, você encontrará todos os componentes que pode usar para desenhar a arquitetura do seu sistema. Eles estão organizados por categoria."
+    },
+    "step2": {
+      "title": "Categorias",
+      "content": "Navegue pelos componentes por categoria: Cliente (frontends), Rede & Borda (CDNs, load balancers), Computação (servidores) e Dados (bancos, caches)."
+    },
+    "step3": {
+      "title": "Arraste e Solte",
+      "content": "Clique e arraste qualquer componente da barra lateral para o canvas para começar a construir seu design de sistema."
+    },
+    "step4": {
+      "title": "Editor de Canvas",
+      "content": "Este é seu espaço de trabalho de diagrama. Você pode arrastar componentes, editar seus rótulos e organizá-los como desejar."
+    },
+    "step5": {
+      "title": "Conecte Componentes",
+      "content": "Passe o mouse sobre um componente para revelar um círculo de conexão. Arraste-o para outro componente para criar uma conexão e mostrar o fluxo de dados."
+    },
+    "step6": {
+      "title": "Barra de Ferramentas",
+      "content": "A barra de ferramentas no topo mostra sua contagem de componentes, conexões e fornece opções de exportação e idioma."
+    },
+    "step7": {
+      "title": "Exporte Seu Design",
+      "content": "Clique em 'Exportar PNG' para baixar seu diagrama de arquitetura de sistema como imagem."
+    },
+    "step8": {
+      "title": "Modo Treino",
+      "content": "À direita, você pode selecionar um de 5 cenários de treinamento, cada um com restrições específicas para resolver."
+    },
+    "step9": {
+      "title": "Escolha um Desafio",
+      "content": "Cada cenário (Encurtador de URL, Feed Social, Chat, E-commerce, etc.) ensina um padrão de arquitetura diferente."
+    },
+    "step10": {
+      "title": "Complete o Checklist",
+      "content": "O checklist ajuda a guiá-lo para um design de sistema completo. Marque os itens conforme você adiciona os componentes necessários para resolver o desafio."
+    }
   }
 }

@@ -165,6 +165,7 @@ export default function Canvas({
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
       onPointerMove={handlePointerMove}
+      data-tour="canvas"
     >
       <div
         className={styles.canvasInner}
@@ -330,6 +331,7 @@ export default function Canvas({
                   className={`${styles.handle} ${styles[`handle_${dir}`]}`}
                   title="Arraste para conectar"
                   onPointerDown={(e) => startConnecting(e, node, dir)}
+                  data-tour={dir === "right" && nodes.length > 0 ? "canvas-connect" : undefined}
                 />
               ))}
             </div>

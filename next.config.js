@@ -4,10 +4,10 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   output: 'export',
   basePath: '/Systemly',
   assetPrefix: '/Systemly/',
+  reactStrictMode: true,
   images: {
     unoptimized: true,
   },

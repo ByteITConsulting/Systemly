@@ -161,5 +161,51 @@
       "title": "Complete the Checklist",
       "content": "The checklist helps guide you toward a complete system design. Check items off as you add the necessary components to solve the challenge."
     }
+  },
+  "landing": {
+    "hero": {
+      "title": "Master System Design",
+      "subtitle": "Learn architecture through interactive visual design",
+      "description": "Build, connect, and learn system architecture patterns by dragging components and solving real-world challenges."
+    },
+    "features": {
+      "interactive": {
+        "title": "Interactive Canvas",
+        "description": "Drag components to the canvas, connect them, and watch your system come to life in real-time."
+      },
+      "challenges": {
+        "title": "Real-World Challenges",
+        "description": "Learn from 5+ system design scenarios including URL Shortener, Social Feed, Chat, and E-commerce."
+      },
+      "export": {
+        "title": "Export & Share",
+        "description": "Export your diagrams as PNG images to save, share, and review your architectural decisions."
+      },
+      "tutorial": {
+        "title": "Guided Tutorial",
+        "description": "Follow step-by-step guided tutorials to learn system design patterns from scratch."
+      }
+    },
+    "challenges": {
+      "title": "Featured Challenges",
+      "description": "Start with one of our curated challenges and learn industry-standard architecture patterns",
+      "urlShortener": "URL Shortener",
+      "urlShortenerDesc": "Design a service that converts long URLs to short ones",
+      "socialFeed": "Social Feed",
+      "socialFeedDesc": "Build a scalable social media feed with billions of users",
+      "chat": "Chat Application",
+      "chatDesc": "Design a real-time messaging system with global scale",
+      "ecommerce": "E-commerce Platform",
+      "ecommerceDesc": "Create a highly available shopping platform with billions in revenue"
+    },
+    "cta": {
+      "button": "Start Learning",
+      "secondary": "View Tutorial"
+    },
+    "footer": {
+      "description": "Learn system design through interactive visual training. Build real-world architectures step by step.",
+      "links": "Challenges",
+      "madeWith": "Made with passion for engineers"
+    }
   }
 }

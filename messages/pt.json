@@ -160,6 +160,50 @@
     "step10": {
       "title": "Complete o Checklist",
       "content": "O checklist ajuda a guiá-lo para um design de sistema completo. Marque os itens conforme você adiciona os componentes necessários para resolver o desafio."
-    }
-  }
+    }  },
+  "landing": {
+    "hero": {
+      "title": "Domine System Design",
+      "subtitle": "Aprenda arquitetura através de design visual interativo",
+      "description": "Construa, conecte e aprenda padrões de arquitetura de sistema arrastando componentes e resolvendo desafios do mundo real."
+    },
+    "features": {
+      "interactive": {
+        "title": "Canvas Interativo",
+        "description": "Arraste componentes para o canvas, conecte-os e veja seu sistema ganhar vida em tempo real."
+      },
+      "challenges": {
+        "title": "Desafios do Mundo Real",
+        "description": "Aprenda com 5+ cenários de system design incluindo Encurtador de URL, Feed Social, Chat e E-commerce."
+      },
+      "export": {
+        "title": "Exporte e Compartilhe",
+        "description": "Exporte seus diagramas como imagens PNG para salvar, compartilhar e revisar suas decisões arquiteturais."
+      },
+      "tutorial": {
+        "title": "Tutorial Guiado",
+        "description": "Siga tutoriais guiados passo a passo para aprender padrões de system design do zero."
+      }
+    },
+    "challenges": {
+      "title": "Desafios em Destaque",
+      "description": "Comece com um de nossos desafios curados e aprenda padrões de arquitetura de padrão industrial",
+      "urlShortener": "Encurtador de URL",
+      "urlShortenerDesc": "Design um serviço que converte URLs longas em curtas",
+      "socialFeed": "Feed Social",
+      "socialFeedDesc": "Construa um feed de mídia social escalável com bilhões de usuários",
+      "chat": "Aplicação de Chat",
+      "chatDesc": "Design um sistema de mensagens em tempo real em escala global",
+      "ecommerce": "Plataforma E-commerce",
+      "ecommerceDesc": "Crie uma plataforma de compras altamente disponível com bilhões em receita"
+    },
+    "cta": {
+      "button": "Comece Agora",
+      "secondary": "Ver Tutorial"
+    },
+    "footer": {
+      "description": "Aprenda system design através de treinamento visual interativo. Construa arquiteturas do mundo real passo a passo.",
+      "links": "Desafios",
+      "madeWith": "Feito com paixão por engenheiros"
+    }  }
 }

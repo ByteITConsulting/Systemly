@@ -1,0 +1,55 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#000000"/>
+  
+  <!-- Gradient overlay -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grad)"/>
+  
+  <!-- Main title -->
+  <text x="600" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="-1">
+    Systemly
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="32" fill="#b3b3b3" text-anchor="middle" letter-spacing="0.5">
+    System Design Training
+  </text>
+  
+  <!-- Description -->
+  <text x="600" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#808080" text-anchor="middle" letter-spacing="0">
+    Build, connect, and learn system architecture
+  </text>
+  
+  <!-- Accent line -->
+  <line x1="400" y1="420" x2="800" y2="420" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Component icons (simple boxes representing system components) -->
+  <g opacity="0.8">
+    <!-- Client icon -->
+    <rect x="150" y="480" width="40" height="40" fill="none" stroke="#4a9eff" stroke-width="2" rx="4"/>
+    <text x="205" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#4a9eff">Client</text>
+    
+    <!-- Server icon -->
+    <rect x="400" y="480" width="40" height="40" fill="none" stroke="#4ade80" stroke-width="2" rx="4"/>
+    <text x="450" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#4ade80">Server</text>
+    
+    <!-- Database icon -->
+    <rect x="650" y="480" width="40" height="40" fill="none" stroke="#f59e0b" stroke-width="2" rx="4"/>
+    <text x="700" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#f59e0b">Database</text>
+    
+    <!-- Cache icon -->
+    <rect x="900" y="480" width="40" height="40" fill="none" stroke="#a78bfa" stroke-width="2" rx="4"/>
+    <text x="950" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#a78bfa">Cache</text>
+  </g>
+  
+  <!-- Connection lines -->
+  <line x1="190" y1="500" x2="400" y2="500" stroke="#666666" stroke-width="1" opacity="0.5" stroke-dasharray="5,5"/>
+  <line x1="440" y1="500" x2="650" y2="500" stroke="#666666" stroke-width="1" opacity="0.5" stroke-dasharray="5,5"/>
+  <line x1="690" y1="500" x2="900" y2="500" stroke="#666666" stroke-width="1" opacity="0.5" stroke-dasharray="5,5"/>
+</svg>

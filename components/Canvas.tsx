@@ -50,6 +50,7 @@ export default function Canvas({
   canvasRef,
 }: CanvasProps) {
   const outerRef = useRef<HTMLDivElement>(null);
+  const pendingConnectionRef = useRef<{ fromId: string; toId: string } | null>(null);
   const [dragging, setDragging] = useState<Dragging | null>(null);
   const [connecting, setConnecting] = useState<Connecting | null>(null);
   const [connectTargetId, setConnectTargetId] = useState<string | null>(null);
@@ -131,7 +132,7 @@ export default function Canvas({
         const hoverNode = el?.closest<HTMLElement>("[data-node-id]");
         const toId = hoverNode?.dataset.nodeId ?? null;
         if (toId && toId !== current.fromId) {
-          onCreateEdge(current.fromId, toId);
+          pendingConnectionRef.current = { fromId: current.fromId, toId };
         }
         return null;
       });
@@ -141,7 +142,16 @@ export default function Canvas({
     }
     window.addEventListener("pointerup", finishConnection);
     return () => window.removeEventListener("pointerup", finishConnection);
-  }, [onCreateEdge]);
+  }, []);
+
+  // Handle pending connection creation after state updates
+  useEffect(() => {
+    if (pendingConnectionRef.current) {
+      const { fromId, toId } = pendingConnectionRef.current;
+      pendingConnectionRef.current = null;
+      onCreateEdge(fromId, toId);
+    }
+  }, [connecting, onCreateEdge]);
 
   function center(node: NodeData) {
     return { x: node.x + NODE_WIDTH / 2, y: node.y + NODE_HEIGHT / 2 };

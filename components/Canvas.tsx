@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { NodeData, EdgeData, NODE_WIDTH, NODE_HEIGHT } from "@/lib/types";
 import { COMPONENT_TYPES } from "@/lib/componentTypes";
 import styles from "./Canvas.module.scss";
+import ComponentLabel from "./ComponentLabel";
 
 export const CANVAS_WIDTH = 2400;
 export const CANVAS_HEIGHT = 1400;
@@ -287,63 +288,56 @@ export default function Canvas({
             <div
               key={node.id}
               data-node-id={node.id}
-              className={`${styles.node} ${connectTargetId === node.id ? styles.nodeTarget : ""}`}
+              className={`${styles.nodeWrapper} ${connectTargetId === node.id ? styles.nodeTarget : ""}`}
               data-cat={type?.category}
               style={{ left: node.x, top: node.y, width: NODE_WIDTH, height: NODE_HEIGHT }}
-              onPointerDown={(e) => startDragNode(e, node)}
             >
-              <span className={`${styles.corner} ${styles.corner_tl}`} />
-              <span className={`${styles.corner} ${styles.corner_tr}`} />
-              <span className={`${styles.corner} ${styles.corner_bl}`} />
-              <span className={`${styles.corner} ${styles.corner_br}`} />
-              <button
-                className={styles.nodeDelete}
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteNode(node.id);
-                }}
-                title="Remover componente"
+              <div
+                className={styles.node}
+                style={{ width: NODE_WIDTH, height: NODE_HEIGHT }}
+                onPointerDown={(e) => startDragNode(e, node)}
               >
-                ×
-              </button>
-              <span className={styles.nodeGlyph}>{type?.glyph}</span>
-              {editingNodeId === node.id ? (
-                <input
-                  autoFocus
-                  className={styles.nodeInput}
-                  defaultValue={node.label}
+                <span className={`${styles.corner} ${styles.corner_tl}`} />
+                <span className={`${styles.corner} ${styles.corner_tr}`} />
+                <span className={`${styles.corner} ${styles.corner_bl}`} />
+                <span className={`${styles.corner} ${styles.corner_br}`} />
+                <button
+                  className={styles.nodeDelete}
                   onPointerDown={(e) => e.stopPropagation()}
-                  onBlur={(e) => {
-                    onRenameNode(node.id, e.target.value.trim() || type?.label || "");
-                    setEditingNodeId(null);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-                  }}
-                />
-              ) : (
-                <span
-                  className={styles.nodeLabel}
-                  onDoubleClick={(e) => {
+                  onClick={(e) => {
                     e.stopPropagation();
-                    setEditingNodeId(node.id);
+                    onDeleteNode(node.id);
                   }}
-                  title="Duplo clique para renomear"
+                  title="Remover componente"
                 >
-                  {node.label}
-                </span>
-              )}
+                  ×
+                </button>
+                <span className={styles.nodeGlyph}>{type?.glyph}</span>
 
-              {HANDLE_DIRS.map((dir) => (
-                <div
-                  key={dir}
-                  className={`${styles.handle} ${styles[`handle_${dir}`]}`}
-                  title="Arraste para conectar"
-                  onPointerDown={(e) => startConnecting(e, node, dir)}
-                  data-tour={dir === "right" && nodes.length > 0 ? "canvas-connect" : undefined}
-                />
-              ))}
+                {HANDLE_DIRS.map((dir) => (
+                  <div
+                    key={dir}
+                    className={`${styles.handle} ${styles[`handle_${dir}`]}`}
+                    title="Arraste para conectar"
+                    onPointerDown={(e) => startConnecting(e, node, dir)}
+                    data-tour={dir === "right" && nodes.length > 0 ? "canvas-connect" : undefined}
+                  />
+                ))}
+              </div>
+
+              <ComponentLabel
+                id={`label-${node.id}`}
+                text={node.label}
+                editing={editingNodeId === node.id}
+                labelClassName={styles.nodeLabel}
+                inputClassName={styles.nodeInput}
+                onRequestEdit={() => setEditingNodeId(node.id)}
+                onRename={(val) => {
+                  onRenameNode(node.id, (val || type?.label || "").trim());
+                  setEditingNodeId(null);
+                }}
+                title="Duplo clique para renomear"
+              />
             </div>
           );
         })}

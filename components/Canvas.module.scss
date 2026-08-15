@@ -51,6 +51,7 @@
 
 .nodeWrapper {
   position: absolute;
+  /* height: 100%; */
 }
 
 .node {
@@ -58,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: 0;
-  padding: 0;
+  padding: 10px 10px 10px 10px;
   justify-content: center;
   background: rgba(255, 255, 255, 0.03);
   border: none;
@@ -180,14 +181,18 @@
 
 .nodeGlyph {
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--bp-paper);
-  border: 1px solid var(--bp-grid-line-strong);
-  padding: 3px 5px;
   background: transparent;
+}
+
+.iconContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .nodeLabel {
@@ -196,6 +201,7 @@
   left: 50%;
   transform: translateX(-50%);
   display: inline-block;
+  text-align: center;
   font-family: var(--font-mono);
   font-size: 11.5px;
   font-weight: 500;

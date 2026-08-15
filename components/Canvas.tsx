@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { NodeData, EdgeData, NODE_WIDTH, NODE_HEIGHT } from "@/lib/types";
 import { COMPONENT_TYPES } from "@/lib/componentTypes";
 import styles from "./Canvas.module.scss";
 import ComponentLabel from "./ComponentLabel";
+import Icon from "./Icon";
 
 export const CANVAS_WIDTH = 2400;
 export const CANVAS_HEIGHT = 1400;
@@ -58,6 +59,48 @@ export default function Canvas({
   const [tempPoint, setTempPoint] = useState<{ x: number; y: number } | null>(null);
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
   const [editingEdgeId, setEditingEdgeId] = useState<string | null>(null);
+  // nodeSizes computed from label text width (measured via canvas) to match image proportion
+  const [nodeSizes, setNodeSizes] = useState<Record<string, { w: number; h: number }>>({});
+  const SCALE = 0.8; // final size = measured * SCALE (20% smaller)
+  const BASE_MIN_SIDE = 64; // base minimum before scaling
+  const MIN_SIDE = Math.max(8, Math.round(BASE_MIN_SIDE * SCALE));
+  const LABEL_EXTRA = 12; // padding added to measured text width before scaling
+  const LABEL_FONT_PX = 11.5; // approximate font size used in .nodeLabel
+  const ICON_SCALE = 0.46; // proportion of node height used for icon size
+  const FALLBACK_NODE_W = Math.round(NODE_WIDTH * SCALE);
+  const FALLBACK_NODE_H = Math.round(NODE_HEIGHT * SCALE);
+
+  function measureTextWidth(text: string, fontPx = LABEL_FONT_PX) {
+    const canvas = (measureTextWidth as any)._canvas || ((measureTextWidth as any)._canvas = document.createElement("canvas"));
+    const ctx = canvas.getContext("2d")!;
+    // use monospace fallback similar to CSS var(--font-mono)
+    ctx.font = `${fontPx}px monospace`;
+    return ctx.measureText(text).width;
+  }
+
+  // Compute sizes from label text; run in layout effect to apply before paint
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    const newSizes: Record<string, { w: number; h: number }> = {};
+    nodes.forEach((node) => {
+      const type = typeMap[node.typeId];
+      const txt = (node.label || type?.label || "").toString().toUpperCase();
+      const textW = Math.ceil(measureTextWidth(txt));
+      const side = Math.max(MIN_SIDE, Math.ceil(textW + LABEL_EXTRA));
+      // use square nodes to match attached image proportion
+      const sideBase = Math.max(BASE_MIN_SIDE, Math.ceil(textW + LABEL_EXTRA));
+      const sideScaled = Math.max(MIN_SIDE, Math.round(sideBase * SCALE));
+      newSizes[node.id] = { w: sideScaled, h: sideScaled };
+    });
+
+    // only update when changed
+    const changed = Object.keys(newSizes).some((id) => {
+      const prev = nodeSizes[id];
+      const cur = newSizes[id];
+      return !prev || prev.w !== cur.w || prev.h !== cur.h;
+    });
+    if (changed) setNodeSizes(newSizes);
+  }, [nodes]);
 
   // canvasRef (passed from the parent) is attached to the full-size inner
   // canvas so the export captures the whole diagram, not just the visible
@@ -76,7 +119,7 @@ export default function Canvas({
     const typeId = e.dataTransfer.getData("componentTypeId");
     if (!typeId || !canvasRef.current) return;
     const p = pointInCanvas(e);
-    onAddNode(typeId, Math.max(0, p.x - NODE_WIDTH / 2), Math.max(0, p.y - NODE_HEIGHT / 2));
+    onAddNode(typeId, Math.max(0, p.x - FALLBACK_NODE_W / 2), Math.max(0, p.y - FALLBACK_NODE_H / 2));
   }
 
   function startDragNode(e: React.PointerEvent, node: NodeData) {
@@ -86,15 +129,17 @@ export default function Canvas({
   }
 
   function handleAnchor(node: NodeData, dir: HandleDir) {
+    const w = FALLBACK_NODE_W;
+    const h = FALLBACK_NODE_H;
     switch (dir) {
       case "top":
-        return { x: node.x + NODE_WIDTH / 2, y: node.y };
+        return { x: node.x + w / 2, y: node.y };
       case "bottom":
-        return { x: node.x + NODE_WIDTH / 2, y: node.y + NODE_HEIGHT };
+        return { x: node.x + w / 2, y: node.y + h };
       case "left":
-        return { x: node.x, y: node.y + NODE_HEIGHT / 2 };
+        return { x: node.x, y: node.y + h / 2 };
       case "right":
-        return { x: node.x + NODE_WIDTH, y: node.y + NODE_HEIGHT / 2 };
+        return { x: node.x + w, y: node.y + h / 2 };
     }
   }
 
@@ -155,7 +200,9 @@ export default function Canvas({
   }, [connecting, onCreateEdge]);
 
   function center(node: NodeData) {
-    return { x: node.x + NODE_WIDTH / 2, y: node.y + NODE_HEIGHT / 2 };
+    const w = FALLBACK_NODE_W;
+    const h = FALLBACK_NODE_H;
+    return { x: node.x + w / 2, y: node.y + h / 2 };
   }
 
   function edgeGeometry(edge: EdgeData) {
@@ -285,18 +332,18 @@ export default function Canvas({
         {nodes.map((node) => {
           const type = typeMap[node.typeId];
           return (
-            <div
-              key={node.id}
-              data-node-id={node.id}
-              className={`${styles.nodeWrapper} ${connectTargetId === node.id ? styles.nodeTarget : ""}`}
-              data-cat={type?.category}
-              style={{ left: node.x, top: node.y, width: NODE_WIDTH, height: NODE_HEIGHT }}
-            >
               <div
-                className={styles.node}
-                style={{ width: NODE_WIDTH, height: NODE_HEIGHT }}
-                onPointerDown={(e) => startDragNode(e, node)}
-              >
+                  key={node.id}
+                    data-node-id={node.id}
+                    className={`${styles.nodeWrapper} ${connectTargetId === node.id ? styles.nodeTarget : ""}`}
+                    data-cat={type?.category}
+                  style={{ left: node.x, top: node.y, width: FALLBACK_NODE_W, height: FALLBACK_NODE_H }}
+            >
+                  <div
+                    className={styles.node}
+                    style={{ width: "50%", padding: "10px 10px 10px 10px", height: "100%" }}
+                    onPointerDown={(e) => startDragNode(e, node)}
+                  >
                 <span className={`${styles.corner} ${styles.corner_tl}`} />
                 <span className={`${styles.corner} ${styles.corner_tr}`} />
                 <span className={`${styles.corner} ${styles.corner_bl}`} />
@@ -312,7 +359,13 @@ export default function Canvas({
                 >
                   ×
                 </button>
-                <span className={styles.nodeGlyph}>{type?.glyph}</span>
+                <div className={styles.iconContainer}>
+                  <Icon
+                    typeId={type?.id}
+                    className={styles.nodeGlyph}
+                    size={Math.round(FALLBACK_NODE_H * ICON_SCALE)}
+                  />
+                </div>
 
                 {HANDLE_DIRS.map((dir) => (
                   <div
@@ -325,14 +378,15 @@ export default function Canvas({
                 ))}
               </div>
 
-              <ComponentLabel
+                <ComponentLabel
                 id={`label-${node.id}`}
                 text={node.label}
                 editing={editingNodeId === node.id}
                 labelClassName={styles.nodeLabel}
                 inputClassName={styles.nodeInput}
+                style={{ minWidth: Math.max(0, FALLBACK_NODE_W - 8) }}
                 onRequestEdit={() => setEditingNodeId(node.id)}
-                onRename={(val) => {
+                onRename={(val?: string) => {
                   onRenameNode(node.id, (val || type?.label || "").trim());
                   setEditingNodeId(null);
                 }}

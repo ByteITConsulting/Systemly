@@ -9,6 +9,7 @@ import ChallengePanel from "./ChallengePanel";
 import { Tutorial } from "./Tutorial";
 import { NodeData, EdgeData } from "@/lib/types";
 import { COMPONENT_TYPES } from "@/lib/componentTypes";
+import { type PointId } from "@/lib/connectionPoints";
 import styles from "./Studio.module.scss";
 
 const typeMap = Object.fromEntries(COMPONENT_TYPES.map((c) => [c.id, c]));
@@ -55,15 +56,28 @@ export default function Studio() {
     setEdges((prev) => prev.map((e) => (e.id === id ? { ...e, label } : e)));
   }, []);
 
-  const handleCreateEdge = useCallback((fromId: string, toId: string) => {
-    setEdges((prev) => {
-      const exists = prev.some(
-        (e) => (e.from === fromId && e.to === toId) || (e.from === toId && e.to === fromId)
-      );
-      if (exists) return prev;
-      return [...prev, { id: nextId("edge"), from: fromId, to: toId, label: "" }];
-    });
-  }, []);
+  const handleCreateEdge = useCallback(
+    (fromId: string, toId: string, fromPoint?: PointId, toPoint?: PointId) => {
+      setEdges((prev) => {
+        const exists = prev.some(
+          (e) => (e.from === fromId && e.to === toId) || (e.from === toId && e.to === fromId)
+        );
+        if (exists) return prev;
+        return [
+          ...prev,
+          {
+            id: nextId("edge"),
+            from: fromId,
+            to: toId,
+            label: "",
+            fromPoint,
+            toPoint,
+          },
+        ];
+      });
+    },
+    []
+  );
 
   const handleClear = useCallback(() => {
     if (nodes.length === 0 && edges.length === 0) return;

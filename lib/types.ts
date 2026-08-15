@@ -21,6 +21,8 @@ export interface EdgeData {
   from: string;
   to: string;
   label: string;
+  fromPoint?: string; // e.g., "top-0", "top-1", "top-2", "right-0", etc.
+  toPoint?: string;   // e.g., "bottom-1", "left-2", etc.
 }
 
 export interface ChecklistItem {

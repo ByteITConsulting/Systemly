@@ -3,6 +3,15 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { NodeData, EdgeData, NODE_WIDTH, NODE_HEIGHT } from "@/lib/types";
 import { COMPONENT_TYPES } from "@/lib/componentTypes";
+import {
+  getPointPositions,
+  getNearestPoint,
+  pointToCoords,
+  getNodeCenter,
+  HANDLE_DIRS,
+  type HandleDir,
+  type PointId,
+} from "@/lib/connectionPoints";
 import styles from "./Canvas.module.scss";
 import ComponentLabel from "./ComponentLabel";
 import Icon from "./Icon";
@@ -11,8 +20,6 @@ export const CANVAS_WIDTH = 2400;
 export const CANVAS_HEIGHT = 1400;
 
 const typeMap = Object.fromEntries(COMPONENT_TYPES.map((c) => [c.id, c]));
-const HANDLE_DIRS = ["top", "right", "bottom", "left"] as const;
-type HandleDir = (typeof HANDLE_DIRS)[number];
 
 interface CanvasProps {
   nodes: NodeData[];
@@ -21,7 +28,7 @@ interface CanvasProps {
   onMoveNode: (id: string, x: number, y: number) => void;
   onDeleteNode: (id: string) => void;
   onRenameNode: (id: string, label: string) => void;
-  onCreateEdge: (fromId: string, toId: string) => void;
+  onCreateEdge: (fromId: string, toId: string, fromPoint?: PointId, toPoint?: PointId) => void;
   onDeleteEdge: (id: string) => void;
   onLabelEdge: (id: string, label: string) => void;
   canvasRef: React.RefObject<HTMLDivElement>;
@@ -35,6 +42,7 @@ interface Dragging {
 
 interface Connecting {
   fromId: string;
+  fromPoint: PointId;
   x: number;
   y: number;
 }
@@ -52,7 +60,12 @@ export default function Canvas({
   canvasRef,
 }: CanvasProps) {
   const outerRef = useRef<HTMLDivElement>(null);
-  const pendingConnectionRef = useRef<{ fromId: string; toId: string } | null>(null);
+  const pendingConnectionRef = useRef<{
+    fromId: string;
+    toId: string;
+    fromPoint: PointId;
+    toPoint: PointId;
+  } | null>(null);
   const [dragging, setDragging] = useState<Dragging | null>(null);
   const [connecting, setConnecting] = useState<Connecting | null>(null);
   const [connectTargetId, setConnectTargetId] = useState<string | null>(null);
@@ -143,21 +156,69 @@ export default function Canvas({
     }
   }
 
-  function startConnecting(e: React.PointerEvent, node: NodeData, dir: HandleDir) {
+  function startConnecting(e: React.PointerEvent, node: NodeData, dir: HandleDir, pointId?: PointId) {
     e.stopPropagation();
     e.preventDefault();
-    const anchor = handleAnchor(node, dir);
-    setConnecting({ fromId: node.id, x: anchor.x, y: anchor.y });
-    setTempPoint(anchor);
+    // If pointId is provided, use it directly; otherwise find nearest point
+    let finalPointId = pointId as PointId;
+    if (!finalPointId) {
+      const pointPos = pointInCanvas(e);
+      const nearestPoint = getNearestPoint(
+        pointPos.x,
+        pointPos.y,
+        node,
+        FALLBACK_NODE_W,
+        FALLBACK_NODE_H
+      );
+      finalPointId = nearestPoint.id;
+    }
+    
+    const coords = pointToCoords(node, finalPointId, FALLBACK_NODE_W, FALLBACK_NODE_H);
+    if (coords) {
+      setConnecting({
+        fromId: node.id,
+        fromPoint: finalPointId,
+        x: coords.x,
+        y: coords.y,
+      });
+      setTempPoint(coords);
+    }
   }
 
   function handlePointerMove(e: React.PointerEvent) {
     if (connecting) {
       const p = pointInCanvas(e);
-      setTempPoint(p);
+      
+      // Snap to nearest point on any target node
       const el = document.elementFromPoint(e.clientX, e.clientY);
       const hoverNode = el?.closest<HTMLElement>("[data-node-id]");
       const hoverId = hoverNode?.dataset.nodeId ?? null;
+      
+      if (hoverId && hoverId !== connecting.fromId) {
+        const targetNode = nodes.find((n) => n.id === hoverId);
+        if (targetNode) {
+          const nearestPoint = getNearestPoint(
+            p.x,
+            p.y,
+            targetNode,
+            FALLBACK_NODE_W,
+            FALLBACK_NODE_H
+          );
+          const coords = pointToCoords(
+            targetNode,
+            nearestPoint.id,
+            FALLBACK_NODE_W,
+            FALLBACK_NODE_H
+          );
+          if (coords) {
+            setTempPoint(coords);
+          }
+        }
+      } else {
+        // Snap to cursor if not over a target node
+        setTempPoint(p);
+      }
+      
       setConnectTargetId(hoverId && hoverId !== connecting.fromId ? hoverId : null);
       return;
     }
@@ -178,7 +239,25 @@ export default function Canvas({
         const hoverNode = el?.closest<HTMLElement>("[data-node-id]");
         const toId = hoverNode?.dataset.nodeId ?? null;
         if (toId && toId !== current.fromId) {
-          pendingConnectionRef.current = { fromId: current.fromId, toId };
+          // Find the nearest point on the target node
+          const targetNode = nodes.find((n) => n.id === toId);
+          if (targetNode) {
+            const rect = (e.target as HTMLElement)?.getBoundingClientRect?.();
+            const p = pointInCanvas({ clientX: e.clientX, clientY: e.clientY });
+            const nearestPoint = getNearestPoint(
+              p.x,
+              p.y,
+              targetNode,
+              FALLBACK_NODE_W,
+              FALLBACK_NODE_H
+            );
+            pendingConnectionRef.current = {
+              fromId: current.fromId,
+              toId,
+              fromPoint: current.fromPoint,
+              toPoint: nearestPoint.id,
+            };
+          }
         }
         return null;
       });
@@ -188,14 +267,14 @@ export default function Canvas({
     }
     window.addEventListener("pointerup", finishConnection);
     return () => window.removeEventListener("pointerup", finishConnection);
-  }, []);
+  }, [nodes]);
 
   // Handle pending connection creation after state updates
   useEffect(() => {
     if (pendingConnectionRef.current) {
-      const { fromId, toId } = pendingConnectionRef.current;
+      const { fromId, toId, fromPoint, toPoint } = pendingConnectionRef.current;
       pendingConnectionRef.current = null;
-      onCreateEdge(fromId, toId);
+      onCreateEdge(fromId, toId, fromPoint, toPoint);
     }
   }, [connecting, onCreateEdge]);
 
@@ -209,8 +288,21 @@ export default function Canvas({
     const from = nodes.find((n) => n.id === edge.from);
     const to = nodes.find((n) => n.id === edge.to);
     if (!from || !to) return null;
-    const c1 = center(from);
-    const c2 = center(to);
+
+    // Use point-specific coordinates if available, otherwise fall back to center
+    let c1 = center(from);
+    let c2 = center(to);
+
+    if (edge.fromPoint) {
+      const coords = pointToCoords(from, edge.fromPoint as PointId, FALLBACK_NODE_W, FALLBACK_NODE_H);
+      if (coords) c1 = coords;
+    }
+
+    if (edge.toPoint) {
+      const coords = pointToCoords(to, edge.toPoint as PointId, FALLBACK_NODE_W, FALLBACK_NODE_H);
+      if (coords) c2 = coords;
+    }
+
     const midX = (c1.x + c2.x) / 2;
     const path = `M ${c1.x} ${c1.y} L ${midX} ${c1.y} L ${midX} ${c2.y} L ${c2.x} ${c2.y}`;
     return { path, mid: { x: midX, y: (c1.y + c2.y) / 2 } };
@@ -367,15 +459,55 @@ export default function Canvas({
                   />
                 </div>
 
-                {HANDLE_DIRS.map((dir) => (
-                  <div
-                    key={dir}
-                    className={`${styles.handle} ${styles[`handle_${dir}`]}`}
-                    title="Arraste para conectar"
-                    onPointerDown={(e) => startConnecting(e, node, dir)}
-                    data-tour={dir === "right" && nodes.length > 0 ? "canvas-connect" : undefined}
-                  />
-                ))}
+                {/* Render 8 connection points: 4 corners + 4 side centers */}
+                {/* Top-left corner */}
+                <div
+                  className={`${styles.handle} ${styles.handle_corner} ${styles.handle_tl}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "top", "top-left")}
+                />
+                {/* Top center */}
+                <div
+                  className={`${styles.handle} ${styles.handle_top_center}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "top", "top-center")}
+                />
+                {/* Top-right corner */}
+                <div
+                  className={`${styles.handle} ${styles.handle_corner} ${styles.handle_tr}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "top", "top-right")}
+                />
+                {/* Right center */}
+                <div
+                  className={`${styles.handle} ${styles.handle_right_center}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "right", "right-center")}
+                />
+                {/* Bottom-right corner */}
+                <div
+                  className={`${styles.handle} ${styles.handle_corner} ${styles.handle_br}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "right", "bottom-right")}
+                />
+                {/* Bottom center */}
+                <div
+                  className={`${styles.handle} ${styles.handle_bottom_center}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "bottom", "bottom-center")}
+                />
+                {/* Bottom-left corner */}
+                <div
+                  className={`${styles.handle} ${styles.handle_corner} ${styles.handle_bl}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "left", "bottom-left")}
+                />
+                {/* Left center */}
+                <div
+                  className={`${styles.handle} ${styles.handle_left_center}`}
+                  title="Arraste para conectar"
+                  onPointerDown={(e) => startConnecting(e, node, "left", "left-center")}
+                />
               </div>
 
                 <ComponentLabel

@@ -379,19 +379,19 @@ export default function Canvas({
               </div>
 
                 <ComponentLabel
-                id={`label-${node.id}`}
-                text={node.label}
-                editing={editingNodeId === node.id}
-                labelClassName={styles.nodeLabel}
-                inputClassName={styles.nodeInput}
-                style={{ minWidth: Math.max(0, FALLBACK_NODE_W - 8) }}
-                onRequestEdit={() => setEditingNodeId(node.id)}
-                onRename={(val?: string) => {
-                  onRenameNode(node.id, (val || type?.label || "").trim());
-                  setEditingNodeId(null);
-                }}
-                title="Duplo clique para renomear"
-              />
+                  id={`label-${node.id}`}
+                  text={node.label}
+                  editing={editingNodeId === node.id}
+                  labelClassName={styles.nodeLabel}
+                  inputClassName={styles.nodeInput}
+                  style={{ minWidth: Math.max(0, FALLBACK_NODE_W - 8) }}
+                  onRequestEdit={() => setEditingNodeId(node.id)}
+                  onRename={(val?: string) => {
+                    onRenameNode(node.id, (val || type?.label || "").trim());
+                    setEditingNodeId(null);
+                  }}
+                  title="Duplo clique para renomear"
+                />
             </div>
           );
         })}

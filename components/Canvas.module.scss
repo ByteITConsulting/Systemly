@@ -51,7 +51,10 @@
 
 .nodeWrapper {
   position: absolute;
-  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .node {
@@ -196,11 +199,9 @@
 }
 
 .nodeLabel {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -213,9 +214,11 @@
   cursor: text;
   text-transform: uppercase;
   background: var(--bp-navy-deep);
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 7px 8px;
   border: 1.5px solid var(--bp-grid-line-strong);
+  border-radius: 3px;
+  width: auto;
+  min-width: fit-content;
   z-index: 3;
 }
 

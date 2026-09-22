@@ -112,3 +112,4 @@ After deploying to production:
 - Adicionar mais cenários e um modo "cronometrado" para simular entrevistas.
 - Validação mais rica do checklist (ex: exigir uma conexão específica entre
   dois tipos de componente, não só a presença da peça).
+
